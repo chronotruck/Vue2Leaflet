@@ -20,19 +20,74 @@
 
 Vue2Leaflet is a JavaScript library for the [Vue](https://vuejs.org/) framework that wraps [Leaflet](http://leafletjs.com/) making it easy to create reactive maps.
 
-
 ![Image of Map](./vue2leaflet-example.png)
+
+## Table of Contents ##
+
+* [Install](#install)
+* [Getting Started](#getting-started)
+* [Documentation](#documentation)
+* [Leaflet plugins](#leaflet-plugins)
+* [Authors](#authors)
+* [Contributors](#contributors)
+* [FAQ](#usage)
+* [License](#license)
+
+## Install
+
+To have a fully working setup with Vue leaflet, you need to import Leaflet package as long as the vue2-leaflet package.
+``` bash
+$ npm install leaflet --save
+$ npm install vue2-leaflet --save
+```
+
+In your index.js, import leaflet and his styles.
+``` js
+import 'leaflet'
+import 'leaflet/dist/leaflet.css'
+```
+
+## Getting started
+
+To setup a simple map, import the required components in your single component file.
+``` js
+import { LMap, LTileLayer } from 'vue2-leaflet';
+
+export default {
+  components: {
+    LMap,
+    LTileLayer
+  },
+  data () {
+    return {
+      zoom: 13,
+      center: L.latLng(47.413220, -1.219482),
+      url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }
+  }
+}
+```
+
+Then you can use your map in your component
+``` html
+<l-map style="height: 90%" :zoom="zoom" :center="center">
+  <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
+</l-map>
+```
+
+> Because you've imported Leaflet in your main.js, Leaflet is exposed through the `window.L` (or just `L`) API.
 
 ## Documentation
 [Go here](https://korigan.github.io/Vue2Leaflet/) to check out live examples and docs.
 
 If you want to hack around, here is a [JS Fiddle](https://jsfiddle.net/Boumi/k04zpLx9/) to get started
-### :warning: Breaking changes from v0.x.x to v1.x.x :warning:
-A new major release v1.x.x is available and come with some breaking changes.
+
 #### :exclamation: Components names
 As some component where conflicting with reserved name like Circle with SVG Circle, from v1.x.x all components are prefixed with L.
 
 For example Marker component became LMarker (l-marker in template).
+
 #### :exclamation: Events names
 Event handling have been simplified and are now mapped directly to Leaflet event.
 
@@ -48,11 +103,9 @@ When adding LControlAttribution or LControlZoom to your template, remember to de
 }
 ```
 Otherwise you will end up with two zoom/attribution control.
-## How to install
-``` bash
-$ npm install vue2-leaflet --save
-```
+
 For more detailed informations you can follow the [Quick Start Guide](https://korigan.github.io/Vue2Leaflet/)
+
 ## Leaflet Plugins
 Leaflet plugins can easily work with Vue2Leaflet, if you want to use one I would recommand to look at the awesome work made by the community in the list below.
 
@@ -72,12 +125,6 @@ If you have created a plugin and want it to be listed here, let me know :-).
 Vue2Leaflet is only a wrapper for Leaflet. I want to keep it as simple as possible so I don't want to add any plugin support into this repo.
 
 ## FAQ
-#### My map and/or markers don't fully render. What gives?
-Depending on your project setup, you may have to try different solutions.
-
-To fix map rendering issues, it may help to [import the Leaflet stylesheet within the **script** section of your Vue component](https://github.com/KoRiGaN/Vue2Leaflet/issues/157#issuecomment-384307765).
-
-In most cases, though, it is Webpack messing with Leaflet marker icons' paths, resulting in warnings or even errors. You can alleviate that by either [unsetting/replacing the default paths](https://github.com/KoRiGaN/Vue2Leaflet/issues/96#issuecomment-341453050) ([alternate solution](https://github.com/Leaflet/Leaflet/issues/4968#issuecomment-319569682)) or [using Webpack aliases](https://github.com/Leaflet/Leaflet/issues/4849#issuecomment-307436996).
 
 #### How can I access the Leaflet map object?
 First add a ref to the map
@@ -120,6 +167,7 @@ Go to <http://localhost:8080/> to see running examples
 
 NOTE: If you make changes to the library you should run 'npm run build' again in the root folder.
 The dev server should detect modification and reload the examples
+
 ## Authors
 
 Mickaël Bouchaud
